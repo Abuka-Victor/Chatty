@@ -1,7 +1,7 @@
 {
-  "name": "chatty",
+  "name": "chat-app",
   "version": "1.0.0",
-  "description": "\"Chatty\" is a foundational real-time chat application built using Socket.io, serving as an excellent starting point for understanding web sockets and real-time communication.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
