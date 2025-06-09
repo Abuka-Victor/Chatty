@@ -104,7 +104,7 @@ export const useChatStore = create<ChatInterface>((set, get) => ({
     const socket = useAuthStore.getState().socket
 
     socket?.on("newMessage", (data) => {
-      if (data.senderId !== get().selectedUser?._id)
+      if (data.senderId === get().selectedUser?._id)
         set({ messages: [...get().messages, data] })
     })
   }
