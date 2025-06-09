@@ -26,7 +26,6 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
 
-app.use(notFound);
 app.use(errorHandler);
 
 if (process.env.NODE_ENV === 'production') {
@@ -35,6 +34,8 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/{*any}', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend', 'dist', 'index.html'));
   });
+} else {
+  app.use(notFound);
 }
 
 server.listen(PORT, () => {
