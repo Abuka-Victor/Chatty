@@ -49,7 +49,7 @@ interface AuthInterface {
   updateProfile: (data: UserUpdate) => void,
 }
 
-const BASE_URL = "http://localhost:8080"
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8080" : "/"
 
 export const useAuthStore = create<AuthInterface>((set, get) => ({
   authUser: null,
