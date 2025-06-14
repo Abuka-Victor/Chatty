@@ -133,7 +133,7 @@ const LoginPage = () => {
       {/* Right Side */}
       <AuthImagePattern
         title="Join the community."
-        subtitle="Connect with your friends, family and loved ones in a semaless and secure chat."
+        subtitle="Connect with your friends, family and loved ones in a seamless and secure chat."
       />
     </div>
   );
