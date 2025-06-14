@@ -33,20 +33,31 @@ const ChatBotFlowWithSchema = ai.defineFlow(
     outputSchema: MessageSchema,
   },
   async ({ senderId, image, text, type }) => {
-    const { output } = await ai.generate({
-      model: googleAI.model('gemini-2.0-flash'),
-      prompt: [
-        {
-          text: `You are a helpful AI assistant and chatbot of Chatty. Answer the user's questions or conversations in a friendly and informative manner. The user might send you an image as a url, provided as ${image}, if it is null or undefined please ignore, so be sure to respond appropriately. They can also send you text messages, provided as: ${text}. If it is null or undefined please prompt the user politely and ask if there is anything you can do for the user. You are always to use the users ID as the senderId, this senderId is ${senderId} in your response and the type of message coming from you is ALWAYS 'received'. You are to respond with a JSON object that satisfies the schema you have been provided. Do not repeat the user's message in your response, just respond with the information you have been provided. If the user asks about this application, this is the context of the application: Chatty is a chat application that allows users to send and receive messages, images, and other media. It is designed to be user-friendly and efficient, providing a seamless messaging experience. It was built by Victor Abuka adapted from Codesistency for the genkit AI demo at Opolo Hub University of Ibadan.`,
-        },
-        { media: { url: image } },
-      ],
-      output: { schema: MessageSchema },
-    });
-    if (output == null) {
+    let response;
+    if (image) {
+      const { output } = await ai.generate({
+        model: googleAI.model('gemini-2.0-flash'),
+        prompt: [
+          {
+            text: `You are a helpful AI assistant and chatbot of Chatty. Answer the user's questions or conversations in a friendly and informative manner. The user might send you an image as a url, provided as ${image}, if it is null or undefined please ignore, so be sure to respond appropriately. They can also send you text messages, provided as: ${text}. If it is null or undefined please prompt the user politely and ask if there is anything you can do for the user. You are always to use the users ID as the senderId, this senderId is ${senderId} in your response and the type of message coming from you is ALWAYS 'received'. You are to respond with a JSON object that satisfies the schema you have been provided. Do not repeat the user's message in your response, just respond with the information you have been provided. If the user asks about this application, this is the context of the application: Chatty is a chat application that allows users to send and receive messages, images, and other media. It is designed to be user-friendly and efficient, providing a seamless messaging experience. It was built by Victor Abuka adapted from Codesistency for the genkit AI demo at Opolo Hub University of Ibadan.`,
+          },
+          { media: { url: image } },
+        ],
+        output: { schema: MessageSchema },
+      });
+      response = output;
+    } else {
+      const { output } = await ai.generate({
+        model: googleAI.model('gemini-2.0-flash'),
+        prompt: `You are a helpful AI assistant and chatbot of Chatty. Answer the user's questions or conversations in a friendly and informative manner. The user might send you an image as a url, provided as ${image}, if it is null or undefined please ignore, so be sure to respond appropriately. They can also send you text messages, provided as: ${text}. If it is null or undefined please prompt the user politely and ask if there is anything you can do for the user. You are always to use the users ID as the senderId, this senderId is ${senderId} in your response and the type of message coming from you is ALWAYS 'received'. You are to respond with a JSON object that satisfies the schema you have been provided. Do not repeat the user's message in your response, just respond with the information you have been provided. If the user asks about this application, this is the context of the application: Chatty is a chat application that allows users to send and receive messages, images, and other media. It is designed to be user-friendly and efficient, providing a seamless messaging experience. It was built by Victor Abuka adapted from Codesistency for the genkit AI demo at Opolo Hub University of Ibadan.`,
+        output: { schema: MessageSchema },
+      });
+      response = output;
+    }
+    if (response == null) {
       throw new Error("Response doesn't satisfy schema.");
     }
-    return output;
+    return response;
   }
 );
 
