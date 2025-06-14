@@ -7,6 +7,7 @@ import path from 'path';
 import { app, server } from './lib/socket.js';
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
+import chatBotRoutes from './routes/chatbot.route.js';
 import { connectdb } from './lib/db.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 
@@ -25,6 +26,7 @@ app.use(
 
 app.use('/api/auth', authRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/chatbot', chatBotRoutes);
 
 app.use(errorHandler);
 
